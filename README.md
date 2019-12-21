@@ -1,6 +1,6 @@
 # ProjetNim
-A Nim game made for a project at the IUT.
+Projet d'un jeu de Nim réalisé pour l'IUT.
 
-The gcc command for the compilation is in the compil.bat
+/!\ Le projet n'est pas terminé /!\
 
-You can see the subject of the project in the .pdf file
+La commande de compilation est disponible dans le fichier compil.bat. Le sujet du projet est également présent, il s'agit du .pdf.
