@@ -34,7 +34,7 @@ void Lire_Entier(int *res, int min, int max) {
     do {
         scanf("%d", res);
         if (*res < min  || *res > max) 
-            printf("Veuillez rentrer un nombre entre %d et %d.\n", min, max);
+            printf("Veuillez rentrer un entier entre %d et %d.\n", min, max);
     } while (*res < min || *res > max);
 }
 
@@ -48,6 +48,51 @@ void fillGrid(char grid[], int nlig, int ncol) {
         grid[i] = '-';
     }
 }
+
+void Calcul_Nimbers(int nim[], int nlig, int ncol) {
+    int x, y;
+    for (x = ncol-1; x >= 0; x--) {
+        //derniere ligne
+        if ((nlig-1)*ncol + x == nlig * ncol - 1
+                || nim[(nlig-1)*ncol + x + 1] == 1 && nim[(nlig-1)*ncol + x + 2] == 1 // case a droite == 1 et celle encore a droite == 0
+                )
+            nim[(nlig-1)*ncol + x] = 0;
+        else {
+            nim[(nlig-1)*ncol + x] = 1;
+        }
+        //les autres lignes
+        for (y = nlig-2; y >= 0; y--) {
+            if ((nim[(y+1)*ncol + x] == 1) && (nim[(y+2)*ncol + x] == 1) // case en dessous == 1 et case encore en dessous == 1
+                || x != ncol-1 && nim[(y+1)*ncol + x + 1] == 0 // case diagonale en bas a droite
+                ) 
+                nim[y*ncol + x] = 0;
+            else {
+                nim[y*ncol + x] = 1;
+            }
+        }   
+    }
+}
+
+//JUSTE POUR TEST LES NIIIIIIIMBER
+        // void niim(int nim[], int nlig, int ncol) {
+        //     int x, y, k = 0;
+
+        //     printf("   "); 
+        //     for (x = 1; x <= ncol; x++) { //affichage première ligne avec coord x
+        //             printf("%3d ", x);
+        //     }
+
+        //     printf("\n");
+        //     for (y = 1; y <= nlig; y++) {
+        //             printf("%2d", y); //affichage coord y
+        //             for (x = 1; x <= ncol; x++) {
+        //                 (nim[k] == 1) ? printf("| . ") : printf("| %d ", nim[k]);
+        //                 k++;
+        //             }   
+        //             printf("\n"); 
+        //     }
+
+        // }
 
 void displayGrid(char grid[], T_Case ban[], T_Case pion, int nlig, int ncol, int nban) {
     int x, y, k = 0;

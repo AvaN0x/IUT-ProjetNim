@@ -32,15 +32,25 @@ void launchGame() {
         pion.y = 1;
         
         Parametres(&nlig, &ncol, &niveau, &next, &nban);
-        // nlig = 15; ncol = 15, niveau = 1; next = 1; nban = 15;
+
+
+        //juste pour les tests et pas se faire chier a rerentrer a chaque fois
+        //nlig = 9; ncol = 10, niveau = 1; next = 1; nban = 10;
+
+
         char grid[nlig*ncol];
+        int nim[nlig*ncol];
 
         T_Case ban[nban];
 
         fillGrid(grid, nlig, ncol);
         Hasard_Ban(nban, ban, nlig, ncol);
 
+        Calcul_Nimbers(nim, nlig, ncol);
+
         displayGrid(grid, ban, pion, nlig, ncol, nban);
+        //niim(nim, nlig, ncol);
+
 
         printf("\nVous allez jouer sur une grille de %d lignes et %d colonnes avec %d cases bannies et un niveau de difficulte de %d avec %d qui commence.", nlig, ncol, nban, niveau, next);
 }
