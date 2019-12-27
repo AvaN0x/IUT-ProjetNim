@@ -3,8 +3,6 @@
 #include <time.h>
 #include "game.h"
 
-void launchGame();
-
 int main(int argc, char* argv[]) {
         int choice;
         srand((unsigned int)time(NULL));
@@ -30,18 +28,18 @@ void launchGame() {
         T_Case pion;
         pion.x = 1;
         pion.y = 1;
-        
-        Parametres(&nlig, &ncol, &niveau, &next, &nban);
+        char* grid;
+        int* nim;
+        T_Case* ban;
 
+        Parametres(&nlig, &ncol, &niveau, &next, &nban);
 
         //juste pour les tests et pas se faire chier a rerentrer a chaque fois
         //nlig = 9; ncol = 10, niveau = 1; next = 1; nban = 10;
 
-
-        char grid[nlig*ncol];
-        int nim[nlig*ncol];
-
-        T_Case ban[nban];
+        grid = malloc(nlig*ncol * sizeof(char));
+        nim = malloc(nlig*ncol * sizeof(int));
+        ban = malloc(nban * sizeof(T_Case));
 
         fillGrid(grid, nlig, ncol);
         Hasard_Ban(nban, ban, nlig, ncol);
@@ -50,7 +48,6 @@ void launchGame() {
 
         displayGrid(grid, ban, pion, nlig, ncol, nban);
         //niim(nim, nlig, ncol);
-
 
         printf("\nVous allez jouer sur une grille de %d lignes et %d colonnes avec %d cases bannies et un niveau de difficulte de %d avec %d qui commence.", nlig, ncol, nban, niveau, next);
 }

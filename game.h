@@ -3,6 +3,8 @@ typedef struct T_Case{
         int y;
 } T_Case;
 
+void launchGame();
+
 void Lire_Entier(int *res, int min, int max);
 void Parametres(int *nlig, int *ncol, int *niveau, int *next, int *nban);
 int Hasard(int min, int max);
