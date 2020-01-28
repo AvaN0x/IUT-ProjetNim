@@ -1,1 +1,0 @@
-gcc main.c game.h game.c -o nimGame.exe
