@@ -1,0 +1,1 @@
+gcc main.c game.h game.c constant.h utilities.h utilities.c -o nimGame
