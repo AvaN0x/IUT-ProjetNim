@@ -19,8 +19,8 @@
     int isVois(int frame, int * vois, int nb_vois);
     void findVois(Plate p, int *vois, int * grid, int pion, int *nbVois);
     int userMove(int nbVois);
-    int randomMoveIA(int nbVois);
-    int winningMoveIA(int nbVois, int * vois, int * grid);
+    int randomMoveAI(int nbVois);
+    int winningMoveAI(int nbVois, int * vois, int * grid);
 
 
 #endif

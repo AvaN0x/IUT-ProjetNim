@@ -10,73 +10,39 @@
 ////////////////////////////////////////
 //fonctions à la création de la partie//
 ////////////////////////////////////////
-void Parametres(Plate *p) {  
-    printf("\nCombien de lignes voulez-vous (entre %d et %d) ? ", SIZEMIN, SIZEMAX);
-    p->nrow = readInt(SIZEMIN, SIZEMAX);
+void Parametres(Plate *p) {
+    int config = 0; 
+    printf("\nVoulez-vous configurer la partie ? ");
+    printf("\n0 - non (%dx%d contre la machine et l'utilisateur commence)", p->nrow, p->ncol);
+    printf("\n1 - oui");
+    printf("\nVous choisissez : ");
+    config = readInt(0,1);
+
+    if (config) {
+        printf("\nCombien de lignes voulez-vous (entre %d et %d) ? ", SIZEMIN, SIZEMAX);
+        p->nrow = readInt(SIZEMIN, SIZEMAX);
+        
+        printf("\nCombien de colonnes voulez-vous (entre %d et %d) ? ", SIZEMIN, SIZEMAX);
+        p->ncol = readInt(SIZEMIN, SIZEMAX);
+
+        printf("\nQuel niveau de difficulte cherchez-vous :");
+        printf("\n%d - debutant", DEBUTANT);
+        printf("\n%d - moyen", MOYEN);
+        printf("\n%d - expert", EXPERT);
+        printf("\n%d - virtuose", VIRTUOSE);
+        printf("\n%d - multijoueur", MULTIPLAYER);
+        printf("\nVous choisissez : ");
+        p->niveau = readInt(DEBUTANT, MULTIPLAYER);
+
+        printf("\nQui commence :");
+        printf("\n%d - le joueur", PLAYER0);
+        printf("\n%d - la machine", PLAYER1);
+        printf("\nVous choisissez : ");
+        p->nextPlayer = readInt(PLAYER0, PLAYER1);
+    }
     
-    printf("\nCombien de colonnes voulez-vous (entre %d et %d) ? ", SIZEMIN, SIZEMAX);
-    p->ncol = readInt(SIZEMIN, SIZEMAX);
-
-    printf("\nQuel niveau de difficulte cherchez-vous :");
-    printf("\n%d - debutant", DEBUTANT);
-    printf("\n%d - moyen", MOYEN);
-    printf("\n%d - expert", EXPERT);
-    printf("\n%d - virtuose", VIRTUOSE);
-    printf("\n%d - multijoueur", MULTIPLAYER);
-    printf("\nVous choisissez : ");
-    p->niveau = readInt(DEBUTANT, MULTIPLAYER);
-
-    printf("\nQui commence :");
-    printf("\n%d - le joueur", PLAYER0);
-    printf("\n%d - la machine", PLAYER1);
-    printf("\nVous choisissez : ");
-    p->nextPlayer = readInt(PLAYER0, PLAYER1);
-
     p->nban = (p->nrow > p->ncol) ? randomInt(0,p->nrow) : randomInt(0,p->ncol);
 }
-
-// void fillGrid(T_Case *grid, int nlig, int ncol) { // remplir la grille avec les coordonnées de chaque case
-//     int x, y, k = 0;
-//     for (y = 1; y <= nlig; y++) {
-//         for (x = 1; x <= ncol; x++) {
-//             grid[k].x = x;
-//             grid[k].y = y;
-//             k++;
-//         }   
-//     }
-
-// }
-
-// void Calcul_Nimbers(int grid, int nlig, int ncol) {
-//     int x, y;
-
-//     nim[ncol-1][nlig-1] = 0; //on set la case de coordonnées (ncol,nlig) : de 0 à ncol-1 (au lieu de 1 à ncol)
-//     // dernière colonne
-//     for (y = nlig-2; y >= 0; y--) {
-//         if (nim[ncol-1][y+1] == 1 && nim[ncol-1][y+2] == 1) // case en dessous == 1 et case encore en dessous == 1
-//             nim[ncol-1][y] = 0;
-//         else 
-//             nim[ncol-1][y] = 1;
-//     }  
-//     // autres colonnes 
-//     for (x = ncol-2; x >= 0; x--) {
-//         //derniere ligne
-//         if (nim[x+1][nlig-1] == 1 && nim[x+2][nlig-1] == 1) // case a droite == 1 et celle encore a droite == 1
-//             nim[x][nlig-1] = 0;
-//         else 
-//             nim[x][nlig-1] = 1;
-
-//         //autres lignes
-//         for (y = nlig-2; y >= 0; y--) {
-//             if (x != ncol-1 && nim[x+1][y+1] == 0 // case diagonale en bas a droite
-//                 ) 
-//                 nim[x][y] = 0;
-//             else 
-//                 nim[x][y] = 1;
-//         }   
-//     }
-//     // dispNim(nim, nlig, ncol); // pour voir la génération des nim
-// }
 
 void fillNimber(int * grid, Plate p) {
     int x, y;
@@ -161,7 +127,7 @@ void launchGame() {
     Plate plate = {20, 20, VIRTUOSE, PLAYER0, 20};
 
     //récupération des différents paramètres
-    // Parametres(&plate);
+    Parametres(&plate);
 
     //on alloue la place necessaire
     grid = malloc(plate.nrow*plate.ncol * sizeof(int));
@@ -206,22 +172,22 @@ void launchGame() {
         if (plate.nextPlayer == PLAYER1) { //machine
             switch (plate.niveau) {
                 case 1: //debutant :  1 randomInt
-                    move = randomMoveIA(nbVois);
+                    move = randomMoveAI(nbVois);
                     break;
                 case 2: //moyen : 2/3 randomInt et 1/3 gagnant
                     if (randomInt(1,3) <= 2)
-                        move = randomMoveIA(nbVois);
+                        move = randomMoveAI(nbVois);
                     else 
-                        move = winningMoveIA(nbVois, vois, grid);
+                        move = winningMoveAI(nbVois, vois, grid);
                     break;
                 case 3: //expert : 1/3 randomInt et 2/3 gagnant
                     if (randomInt(1,3) <= 1)
-                        move = randomMoveIA(nbVois);
+                        move = randomMoveAI(nbVois);
                     else 
-                        move = winningMoveIA(nbVois, vois, grid);
+                        move = winningMoveAI(nbVois, vois, grid);
                     break;
                 case 4: //virtuose : 1 gagnant
-                    move = winningMoveIA(nbVois, vois, grid);
+                    move = winningMoveAI(nbVois, vois, grid);
                     break;
             }
             printf("La machine se deplace en %d.\n", move);
@@ -333,14 +299,14 @@ int userMove(int nbVois) {
     return choice;
 }
 
-int randomMoveIA(int nbVois) {
+int randomMoveAI(int nbVois) {
     int choice;
     choice = randomInt(1, nbVois);
 
     return choice; //on renvoit le choix pour faire le mouvement
 }
 
-int winningMoveIA(int nbVois, int * vois, int * grid) {
+int winningMoveAI(int nbVois, int * vois, int * grid) {
     int i, choice = -1;
     for (i = 0; i < nbVois; i++) { 
         if (grid[vois[i]] == 0) { //si la case a un nim de 0, on peut aller dessus
@@ -349,7 +315,7 @@ int winningMoveIA(int nbVois, int * vois, int * grid) {
         }
     }
     if (choice == -1)
-        choice = randomMoveIA(nbVois);
+        choice = randomMoveAI(nbVois);
 
     return choice; //on renvoit le choix pour afficher le mouvement
 }

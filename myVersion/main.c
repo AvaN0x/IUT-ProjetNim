@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
                 choice = readInt(0, 1);
                 (choice == 1) ? launchGame() : printf("=> Aurevoir !");
                 printf("\n");
-        } while (choice !=0);
+        } while (choice != 0);
 
         return EXIT_SUCCESS;
 }
