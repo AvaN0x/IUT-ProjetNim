@@ -13,12 +13,12 @@
 void Parametres(Plate *p) {
     int config = 0; 
     printf("\nVoulez-vous configurer la partie ? ");
-    printf("\n0 - non (%dx%d contre la machine et l'utilisateur commence)", p->nrow, p->ncol);
     printf("\n1 - oui");
+    printf("\n2 - non (%dx%d contre la machine et l'utilisateur commence)", p->nrow, p->ncol);
     printf("\nVous choisissez : ");
-    config = readInt(0,1);
+    config = readInt(1,2);
 
-    if (config) {
+    if (config == 1) {
         printf("\nCombien de lignes voulez-vous (entre %d et %d) ? ", SIZEMIN, SIZEMAX);
         p->nrow = readInt(SIZEMIN, SIZEMAX);
         
@@ -35,10 +35,10 @@ void Parametres(Plate *p) {
         p->niveau = readInt(DEBUTANT, MULTIPLAYER);
 
         printf("\nQui commence :");
-        printf("\n%d - le joueur", PLAYER0);
-        printf("\n%d - la machine", PLAYER1);
+        printf("\n%d - le joueur", PLAYER1);
+        printf("\n%d - la machine", PLAYER2);
         printf("\nVous choisissez : ");
-        p->nextPlayer = readInt(PLAYER0, PLAYER1);
+        p->nextPlayer = readInt(PLAYER1, PLAYER2);
     }
     
     p->nban = (p->nrow > p->ncol) ? randomInt(0,p->nrow) : randomInt(0,p->ncol);
@@ -124,7 +124,7 @@ int isVois(int frame, int * vois, int nbVois) {
 
 void launchGame() {
 	int pion = 0, * grid, * vois, move = 1, nbVois = 4;
-    Plate plate = {20, 20, VIRTUOSE, PLAYER0, 20};
+    Plate plate = {20, 20, VIRTUOSE, PLAYER1, 20};
 
     //récupération des différents paramètres
     Parametres(&plate);
@@ -154,10 +154,10 @@ void launchGame() {
             break;
     }
     switch (plate.nextPlayer) {
-        case PLAYER0:
+        case PLAYER1:
             printf(" et la machine commence.\n");
             break;
-        case PLAYER1:
+        case PLAYER2:
             printf(" et vous commencez.\n");
             break;
     }
@@ -169,7 +169,7 @@ void launchGame() {
         printf("\n\n");
         dispGrid(grid, plate, pion, vois, nbVois);
 
-        if (plate.nextPlayer == PLAYER1) { //machine
+        if (plate.nextPlayer == PLAYER2) { //machine
             switch (plate.niveau) {
                 case 1: //debutant :  1 randomInt
                     move = randomMoveAI(nbVois);
@@ -201,29 +201,29 @@ void launchGame() {
         pion = vois[move-1];
 
         if (pion != plate.ncol*plate.nrow-1)
-            plate.nextPlayer = (plate.nextPlayer == PLAYER0) ? PLAYER1 : PLAYER0; //on change le prochain joueur, sauf si la partie est finie
+            plate.nextPlayer = (plate.nextPlayer == PLAYER1) ? PLAYER2 : PLAYER1; //on change le prochain joueur, sauf si la partie est finie
     }
     nbVois = 0;
 
     printf("\n\n");
     dispGrid(grid, plate, pion, vois, nbVois);
-    if (plate.nextPlayer == PLAYER1) {
-        printf("  _____             _       \n");
-        printf(" |  __ \\           | |      \n");
+    if (plate.nextPlayer == PLAYER2) {
+        printf("  _____             _\n");
+        printf(" |  __ \\           | |\n");
         printf(" | |__) |__ _ __ __| |_   _ \n");
         printf(" |  ___/ _ \\ '__/ _` | | | |\n");
         printf(" | |  |  __/ | | (_| | |_| |\n");
         printf(" |_|   \\___|_|  \\__,_|\\__,_|\n");
         printf("La machine est contente d'avoir gagne :)\n");
     } else {
-        printf("   _____                     __ \n");
-        printf("  / ____|                   /_/ \n");
-        printf(" | |  __  __ _  __ _ _ __   ___ \n");
+        printf("   _____                     __\n");
+        printf("  / ____|                   /_/\n");
+        printf(" | |  __  __ _  __ _ _ __   ___\n");
         printf(" | | |_ |/ _` |/ _` | '_ \\ / _ \\\n");
         printf(" | |__| | (_| | (_| | | | |  __/\n");
         printf("  \\_____|\\__,_|\\__, |_| |_|\\___|\n");
-        printf("                __/ |           \n");
-        printf("               |___/            \n");
+        printf("                __/ |\n");
+        printf("               |___/\n");
         printf("La machine est triste d'avoir perdu :(\n");
     }
     free(grid);

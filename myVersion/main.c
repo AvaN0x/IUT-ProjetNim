@@ -19,13 +19,13 @@ int main(int argc, char* argv[]) {
                                                 
         do {
                 printf("\nQue voulez vous faire ?");
-                printf("\n0/ Quitter");
                 printf("\n1/ Jouer");
+                printf("\n2/ Quitter");
                 printf("\nChoisissez : ");
-                choice = readInt(0, 1);
+                choice = readInt(1, 2);
                 (choice == 1) ? launchGame() : printf("=> Aurevoir !");
                 printf("\n");
-        } while (choice != 0);
+        } while (choice != 2);
 
         return EXIT_SUCCESS;
 }

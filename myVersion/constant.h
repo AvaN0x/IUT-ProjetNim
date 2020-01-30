@@ -10,7 +10,7 @@ AvaN0x
     #define SIZEMAX 30
 
     typedef enum {
-        DEBUTANT,
+        DEBUTANT = 1,
         MOYEN,
         EXPERT,
         VIRTUOSE,
@@ -18,8 +18,8 @@ AvaN0x
     } Difficulty;
 
     typedef enum {
-        PLAYER0,
-        PLAYER1
+        PLAYER1 = 1,
+        PLAYER2
     } Player;
 
     typedef struct {

@@ -8,5 +8,7 @@ AvaN0x
 
 int readInt(int min, int max);
 int randomInt(int min, int max);
+int read(char *chaine, int longueur);
+void viderBuffer();
 
 #endif
