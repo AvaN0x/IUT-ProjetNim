@@ -11,5 +11,5 @@ Deux versions ont été faites :
 
 ## Compilation
 Les commandes pour compiler les projets sont présentes dans le `compil.bat` issue des différents dossier.
-Les executables sont également inclus.
+Les executables sont également inclus. (Nécessite MinGW)
 
